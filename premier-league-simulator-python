@@ -1,0 +1,72 @@
+import random
+
+team_names = ['Arsenal', 'Aston Villa', 'Brentford', 'Brighton', 'Burnley', 'Chelsea', 'Crystal Palace', 'Everton', 'Leeds', 'Leicester', 'Liverpool', 'Man City', 'Man Utd', 'Newcastle', 'Norwich', 'Southampton', 'Tottenham', 'Watford', 'West Ham', 'Wolves']
+
+# Create a dictionary to store the team names and their bias scores
+team_bias = {}
+for team in team_names:
+    team_bias[team] = 0
+
+# Set the bias score for each team
+team_bias['Arsenal'] = 1
+team_bias['Aston Villa'] = -1
+team_bias['Brentford'] = 0
+team_bias['Brighton'] = 0
+team_bias['Burnley'] = 0
+team_bias['Chelsea'] = 3
+team_bias['Crystal Palace'] = 0
+team_bias['Everton'] = 5
+team_bias['Leeds'] = 0
+team_bias['Leicester'] = 2
+team_bias['Liverpool'] = 5
+team_bias['Man City'] = 4
+team_bias['Man Utd'] = 3
+team_bias['Newcastle'] = -2
+team_bias['Norwich'] = -3
+team_bias['Southampton'] = 0
+team_bias['Tottenham'] = 2
+team_bias['Watford'] = -1
+team_bias['West Ham'] = 0
+team_bias['Wolves'] = 1
+
+# Create a list to store the results of each match
+results = []
+
+# Simulate the matches for 38 weeks
+for week in range(38):
+    # Shuffle the list of team names to randomize the matches
+    random.shuffle(team_names)
+    # Loop through the list of team names and simulate a match between each pair of teams
+    for i in range(0, len(team_names), 2):
+        team1 = team_names[i]
+        team2 = team_names[i+1]
+        # Generate a random score for each team, modified by their bias score
+        score1 = random.randint(0, 4) + team_bias[team1]
+        score2 = random.randint(0, 4) + team_bias[team2]
+        # Store the result of the match in the results list
+        results.append((team1, score1, team2, score2))
+        print(results)
+
+# Create a dictionary to store the points for each team
+points = {}
+for team in team_names:
+    points[team] = 0
+
+# Loop through the results and update the points for each team
+for result in results:
+    team1, score1, team2, score2 = result
+    if score1 > score2:
+        points[team1] += 3
+    elif score1 < score2:
+        points[team2] += 3
+    else:
+        points[team1] += 1
+        points[team2] += 1
+
+# Sort the teams by their points and print the final league table
+sorted_teams = sorted(points, key=points.get, reverse=True)
+
+print('Final League Table:')
+print('Team\tPoints')
+for team in sorted_teams:
+    print('{}\t{}'.format(team, points[team]))
